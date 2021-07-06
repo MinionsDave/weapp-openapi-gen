@@ -3,3 +3,7 @@ node_modules
 dist
 out
 .idea
+
+# System Files
+.DS_Store
+Thumbs.db
