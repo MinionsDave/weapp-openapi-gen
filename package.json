@@ -1,21 +1,21 @@
 {
-  "name": "ng-openapi-gen",
-  "version": "0.17.1",
+  "name": "weapp-openapi-gen",
+  "version": "0.0.1",
   "license": "MIT",
-  "author": "Cyclos development team",
-  "description": "An OpenAPI 3 codegen for Angular 7+",
+  "author": "Jax2000 <wudengguang@gmail.com>",
+  "description": "An OpenAPI 3 codegen for weapp",
   "keywords": [
-    "angular",
+    "weapp",
     "openapi",
     "codegen"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cyclosproject/ng-openapi-gen.git"
+    "url": "git+https://github.com/MinionsDave/weapp-openapi-gen.git"
   },
   "private": true,
   "bin": {
-    "ng-openapi-gen": "lib/index.js"
+    "weapp-openapi-gen": "lib/index.js"
   },
   "scripts": {
     "test": "jasmine-ts --project=tsconfig.json --config=jasmine.json",
