@@ -1,11 +1,11 @@
 import { ArgumentParser } from 'argparse';
+import fs from 'fs';
+import { kebabCase } from 'lodash';
 import pkg from '../package.json';
 import schema from '../weapp-openapi-gen-schema.json';
 import { Options } from './options.js';
-import fs from 'fs';
-import { kebabCase } from 'lodash';
 
-const Mnemonics: { [key: string]: string } = { 'input': 'i', 'output': 'o' };
+const Mnemonics: { [key: string]: string } = { input: 'i', output: 'o' };
 const DefaultConfig = 'ng-openapi-gen.json';
 
 function createParser() {
@@ -23,18 +23,15 @@ custom suffix for service classes via command-line, pass the command-line
 argument '--serviceSuffix Suffix'. Kebab-case is also accepted, so, the same
 argument could be set as '--service-suffix Suffix'
 As the only required argument is the input for OpenAPI specification,
-a configuration file is only required if no --input argument is set.`.trim()
+a configuration file is only required if no --input argument is set.`.trim(),
   });
-  argParser.addArgument(
-    ['-c', '--config'],
-    {
-      help: `
+  argParser.addArgument(['-c', '--config'], {
+    help: `
 The configuration file to be used. If not specified, assumes that
 ${DefaultConfig} in the current directory`.trim(),
-      dest: 'config',
-      defaultValue: `./${DefaultConfig}`
-    }
-  );
+    dest: 'config',
+    defaultValue: `./${DefaultConfig}`,
+  });
   const props = schema.properties;
   for (const key of Object.keys(props)) {
     if (key === '$schema') {
@@ -53,7 +50,7 @@ ${DefaultConfig} in the current directory`.trim(),
     }
     argParser.addArgument(names, {
       help: desc.description,
-      dest: key
+      dest: key,
     });
   }
   return argParser;
@@ -75,7 +72,9 @@ export function parseOptions(sysArgs?: string[]): Options {
 For help, run ng-openapi-gen --help`);
       }
     } else {
-      throw new Error(`The given configuration file doesn't exist: ${args.config}.`);
+      throw new Error(
+        `The given configuration file doesn't exist: ${args.config}.`,
+      );
     }
   }
   objectifyCustomizedResponseType(args);
@@ -90,7 +89,10 @@ For help, run ng-openapi-gen --help`);
     }
     const desc = (props as any)[key];
     if (desc.type === 'array') {
-      value = (value || '').trim().split(',').map((v: string) => v.trim());
+      value = (value || '')
+        .trim()
+        .split(',')
+        .map((v: string) => v.trim());
     } else if (value === 'true') {
       value = true;
     } else if (value === 'false') {
@@ -103,19 +105,24 @@ For help, run ng-openapi-gen --help`);
       options[key] = value;
     }
   }
-  if (options.input == undefined || options.input === '') {
+  if (options.input === undefined || options.input === '') {
     throw new Error('No input (OpenAPI specification) defined');
   }
   return options;
 }
 
-function objectifyCustomizedResponseType(args: { customizedResponseType?: string }): void {
-
-  if (!args.customizedResponseType) return;
+function objectifyCustomizedResponseType(args: {
+  customizedResponseType?: string;
+}): void {
+  if (!args.customizedResponseType) {
+    return;
+  }
 
   try {
     args.customizedResponseType = JSON.parse(args.customizedResponseType);
   } catch (error) {
-    throw new Error(`Invalid JSON string: [${args.customizedResponseType}] \n for --customizedResponseType`);
+    throw new Error(
+      `Invalid JSON string: [${args.customizedResponseType}] \n for --customizedResponseType`,
+    );
   }
 }

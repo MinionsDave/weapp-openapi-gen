@@ -1,17 +1,20 @@
+import eol from 'eol';
 import fs from 'fs';
 import path from 'path';
 import { Globals } from './globals';
-import eol from 'eol';
 
 /**
  * Holds all templates, and know how to apply them
  */
 export class Templates {
-
   private templates: { [key: string]: HandlebarsTemplateDelegate } = {};
   private globals: { [key: string]: any } = {};
 
-  constructor(builtInDir: string, customDir: string, handlebars: typeof Handlebars) {
+  constructor(
+    builtInDir: string,
+    customDir: string,
+    handlebars: typeof Handlebars,
+  ) {
     const builtInTemplates = fs.readdirSync(builtInDir);
     const customTemplates = customDir === '' ? [] : fs.readdirSync(customDir);
     // Read all built-in templates, but taking into account an override, if any
@@ -25,7 +28,11 @@ export class Templates {
     }
   }
 
-  private parseTemplate(dir: string, file: string, handlebars: typeof Handlebars) {
+  private parseTemplate(
+    dir: string,
+    file: string,
+    handlebars: typeof Handlebars,
+  ) {
     const baseName = this.baseName(file);
     if (baseName) {
       const text = eol.auto(fs.readFileSync(path.join(dir, file), 'utf-8'));
@@ -62,8 +69,10 @@ export class Templates {
     if (!template) {
       throw new Error(`Template not found: ${templateName}`);
     }
-    const actualModel: { [key: string]: any } = { ...this.globals, ...(model || {}) };
+    const actualModel: { [key: string]: any } = {
+      ...this.globals,
+      ...(model || {}),
+    };
     return template(actualModel);
   }
-
 }

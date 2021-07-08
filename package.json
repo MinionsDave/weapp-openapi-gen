@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "jasmine-ts --project=tsconfig.json --config=jasmine.json",
-    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "lint": "tslint \"lib/**/*.ts\" --fix && prettier --write \"lib/**/*.ts\"",
     "compile": "tsc --project tsconfig.json && ncp \"LICENSE\" dist && ncp \"README.md\" \"dist/README.md\" && ncp \"templates\" \"dist/templates\" && ncp \"node_modules\" \"dist/node_modules\" && rimraf \"dist/test\" && replace-in-file \"\\\"private\\\": true\" \"\\\"private\\\": false\" dist/package.json",
     "build": "npm run tslint && npm run compile && npm test",
     "test:watch": "nodemon --watch './**/*' --exec 'npm run test'"
@@ -60,8 +60,10 @@
     "mem": "^8.0.0",
     "ncp": "^2.0.0",
     "nodemon": "^2.0.7",
+    "prettier": "^2.3.2",
     "replace-in-file": "^6.2.0",
-    "tslint": "^5.20.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
     "typescript-parser": "^2.6.1"
   }
 }

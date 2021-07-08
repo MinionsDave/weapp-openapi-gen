@@ -1,12 +1,21 @@
-import jsesc from 'jsesc';
 import fs from 'fs-extra';
-import path from 'path';
+import jsesc from 'jsesc';
 import { camelCase, deburr, kebabCase, upperCase, upperFirst } from 'lodash';
 import { OpenAPIObject, ReferenceObject, SchemaObject } from 'openapi3-ts';
-import { Options } from './options';
+import path from 'path';
 import { Model } from './model';
+import { Options } from './options';
 
-export const HTTP_METHODS = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
+export const HTTP_METHODS = [
+  'get',
+  'put',
+  'post',
+  'delete',
+  'options',
+  'head',
+  'patch',
+  'trace',
+];
 type SchemaOrRef = SchemaObject | ReferenceObject;
 
 /**
@@ -37,7 +46,11 @@ export function qualifiedName(name: string, options: Options): string {
 /**
  * Returns the file to import for a given model
  */
-export function modelFile(pathToModels: string, name: string, options: Options): string {
+export function modelFile(
+  pathToModels: string,
+  name: string,
+  options: Options,
+): string {
   let dir = pathToModels || '';
   if (dir.endsWith('/')) {
     dir = dir.substr(0, dir.length - 1);
@@ -47,7 +60,7 @@ export function modelFile(pathToModels: string, name: string, options: Options):
     dir += `/${ns}`;
   }
   const file = unqualifiedName(name, options);
-  return dir += '/' + fileName(file);
+  return (dir += '/' + fileName(file));
 }
 
 /**
@@ -115,15 +128,23 @@ export function toBasicChars(text: string, firstNonDigit = false): string {
 /**
  * Returns the TypeScript comments for the given schema description, in a given indentation level
  */
-export function tsComments(description: string | undefined, level: number, deprecated?: boolean) {
+export function tsComments(
+  description: string | undefined,
+  level: number,
+  deprecated?: boolean,
+) {
   const indent = '  '.repeat(level);
-  if (description == undefined || description.length === 0) {
+  if (description === undefined || description.length === 0) {
     return indent + (deprecated ? '/** @deprecated */' : '');
   }
   const lines = description.trim().split('\n');
   let result = '\n' + indent + '/**\n';
   lines.forEach(line => {
-    result += indent + ' *' + (line === '' ? '' : ' ' + line.replace(/\*\//g, '* / ')) + '\n';
+    result +=
+      indent +
+      ' *' +
+      (line === '' ? '' : ' ' + line.replace(/\*\//g, '* / ')) +
+      '\n';
   });
   if (deprecated) {
     result += indent + ' *\n' + indent + ' * @deprecated\n';
@@ -136,14 +157,18 @@ export function tsComments(description: string | undefined, level: number, depre
  * Applies the prefix and suffix to a model class name
  */
 export function modelClass(baseName: string, options: Options) {
-  return `${options.modelPrefix || ''}${typeName(baseName)}${options.modelSuffix || ''}`;
+  return `${options.modelPrefix || ''}${typeName(baseName)}${
+    options.modelSuffix || ''
+  }`;
 }
 
 /**
  * Applies the prefix and suffix to a service class name
  */
 export function serviceClass(baseName: string, options: Options) {
-  return `${options.servicePrefix || ''}${typeName(baseName)}${options.serviceSuffix || 'Service'}`;
+  return `${options.servicePrefix || ''}${typeName(baseName)}${
+    options.serviceSuffix || 'Service'
+  }`;
 }
 
 /**
@@ -153,14 +178,19 @@ export function escapeId(name: string) {
   if (/^[a-zA-Z]\w+$/.test(name)) {
     return name;
   } else {
-    return `'${name.replace(/\'/g, '\\\'')}'`;
+    return `'${name.replace(/\'/g, "\\'")}'`;
   }
 }
 
 /**
  * Returns the TypeScript type for the given type and options
  */
-export function tsType(schemaOrRef: SchemaOrRef | undefined, options: Options, openApi: OpenAPIObject, container?: Model): string {
+export function tsType(
+  schemaOrRef: SchemaOrRef | undefined,
+  options: Options,
+  openApi: OpenAPIObject,
+  container?: Model,
+): string {
   if (!schemaOrRef) {
     // No schema
     return 'any';
@@ -184,7 +214,9 @@ export function tsType(schemaOrRef: SchemaOrRef | undefined, options: Options, o
   const union = schema.oneOf || schema.anyOf || [];
   if (union.length > 0) {
     if (union.length > 1) {
-      return `(${union.map(u => tsType(u, options, openApi, container)).join(' | ')})`;
+      return `(${union
+        .map(u => tsType(u, options, openApi, container))
+        .join(' | ')})`;
     } else {
       return union.map(u => tsType(u, options, openApi, container)).join(' | ');
     }
@@ -232,11 +264,17 @@ export function tsType(schemaOrRef: SchemaOrRef | undefined, options: Options, o
       result += `: ${propertyType}`;
     }
     if (schema.additionalProperties) {
-      const additionalProperties = schema.additionalProperties === true ? {} : schema.additionalProperties;
+      const additionalProperties =
+        schema.additionalProperties === true ? {} : schema.additionalProperties;
       if (!first) {
         result += ', ';
       }
-      result += `[key: string]: ${tsType(additionalProperties, options, openApi, container)}`;
+      result += `[key: string]: ${tsType(
+        additionalProperties,
+        options,
+        openApi,
+        container,
+      )}`;
     }
     result += ' }';
     intersectionType.push(result);
@@ -297,9 +335,11 @@ export function deleteDirRecursive(dir: string) {
   if (fs.existsSync(dir)) {
     fs.readdirSync(dir).forEach((file: any) => {
       const curPath = path.join(dir, file);
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+      if (fs.lstatSync(curPath).isDirectory()) {
+        // recurse
         deleteDirRecursive(curPath);
-      } else { // delete file
+      } else {
+        // delete file
         fs.unlinkSync(curPath);
       }
     });
@@ -310,7 +350,11 @@ export function deleteDirRecursive(dir: string) {
 /**
  * Synchronizes the files from the source to the target directory. Optionally remove stale files.
  */
-export function syncDirs(srcDir: string, destDir: string, removeStale: boolean): any {
+export function syncDirs(
+  srcDir: string,
+  destDir: string,
+  removeStale: boolean,
+): any {
   fs.ensureDirSync(destDir);
   const srcFiles = fs.readdirSync(srcDir);
   const destFiles = fs.readdirSync(destDir);
@@ -323,7 +367,9 @@ export function syncDirs(srcDir: string, destDir: string, removeStale: boolean):
     } else {
       // Read the content of both files and update if they differ
       const srcContent = fs.readFileSync(srcFile, { encoding: 'utf-8' });
-      const destContent = fs.existsSync(destFile) ? fs.readFileSync(destFile, { encoding: 'utf-8' }) : null;
+      const destContent = fs.existsSync(destFile)
+        ? fs.readFileSync(destFile, { encoding: 'utf-8' })
+        : null;
       if (srcContent !== destContent) {
         fs.writeFileSync(destFile, srcContent, { encoding: 'utf-8' });
         console.debug('Wrote ' + destFile);

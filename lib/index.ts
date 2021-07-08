@@ -3,6 +3,6 @@
 import { runNgOpenApiGen } from './ng-openapi-gen';
 
 // Run the main function
-runNgOpenApiGen()
-  .catch(err => console.error(`Error on API generation: ${err}`));
-
+runNgOpenApiGen().catch(err =>
+  console.error(`Error on API generation: ${err}`),
+);

@@ -1,5 +1,5 @@
 import { OpenAPIObject, SecuritySchemeObject } from 'openapi3-ts';
-import { tsComments, tsType, methodName } from './gen-utils';
+import { methodName, tsComments, tsType } from './gen-utils';
 import { Options } from './options';
 
 /**
@@ -27,7 +27,13 @@ export class Security {
   in: string;
   type: string;
 
-  constructor(key: string, public spec: SecuritySchemeObject, public scope: string[] = [], options: Options, openApi: OpenAPIObject) {
+  constructor(
+    key: string,
+    public spec: SecuritySchemeObject,
+    public scope: string[] = [],
+    options: Options,
+    openApi: OpenAPIObject,
+  ) {
     this.name = spec.name || '';
     this.var = methodName(key);
     this.tsComments = tsComments(spec.description || '', 2);

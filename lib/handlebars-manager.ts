@@ -6,7 +6,6 @@ import { Options } from './options';
  * Handlebars manager
  */
 export class HandlebarsManager {
-
   public instance: typeof Handlebars = Handlebars;
 
   public readCustomJsFile(options: Options): void {
@@ -16,7 +15,6 @@ export class HandlebarsManager {
     // Handlebars settings (ex: adding helpers)
     const handlerbarsJsFile = customDir ? `${customDir}/handlebars.js` : null;
     if (handlerbarsJsFile && fs.existsSync(handlerbarsJsFile)) {
-
       // Attempt to import the "handlebars.js" file if it exists
       const handlebarsFn = require(fs.realpathSync(handlerbarsJsFile));
       if (handlebarsFn && typeof handlebarsFn === 'function') {

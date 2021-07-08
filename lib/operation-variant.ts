@@ -1,7 +1,7 @@
 import { Content } from './content';
+import { tsComments } from './gen-utils';
 import { Operation } from './operation';
 import { Options } from './options';
-import { tsComments } from './gen-utils';
 
 /**
  * An operation has a variant per distinct possible body content
@@ -23,11 +23,16 @@ export class OperationVariant {
     public methodName: string,
     public requestBody: Content | null,
     public successResponse: Content | null,
-    public options: Options) {
+    public options: Options,
+  ) {
     this.responseMethodName = `${methodName}$Response`;
     if (successResponse) {
       this.resultType = successResponse.type;
-      this.responseType = this.inferResponseType(successResponse.mediaType, operation, options);
+      this.responseType = this.inferResponseType(
+        successResponse.mediaType,
+        operation,
+        options,
+      );
       this.accept = successResponse.mediaType;
     } else {
       this.resultType = 'void';
@@ -38,11 +43,23 @@ export class OperationVariant {
     this.isNumber = this.resultType === 'number';
     this.isBoolean = this.resultType === 'boolean';
     this.isOther = !this.isVoid && !this.isNumber && !this.isBoolean;
-    this.responseMethodTsComments = tsComments(this.responseMethodDescription(), 1, operation.deprecated);
-    this.bodyMethodTsComments = tsComments(this.bodyMethodDescription(), 1, operation.deprecated);
+    this.responseMethodTsComments = tsComments(
+      this.responseMethodDescription(),
+      1,
+      operation.deprecated,
+    );
+    this.bodyMethodTsComments = tsComments(
+      this.bodyMethodDescription(),
+      1,
+      operation.deprecated,
+    );
   }
 
-  private inferResponseType(mediaType: string, operation: Operation, { customizedResponseType = {} }: Pick<Options, 'customizedResponseType'>): string {
+  private inferResponseType(
+    mediaType: string,
+    operation: Operation,
+    { customizedResponseType = {} }: Pick<Options, 'customizedResponseType'>,
+  ): string {
     const customizedResponseTypeByPath = customizedResponseType[operation.path];
     if (customizedResponseTypeByPath) {
       return customizedResponseTypeByPath.toUse;
@@ -60,12 +77,16 @@ export class OperationVariant {
 
   private responseMethodDescription() {
     return `${this.descriptionPrefix()}This method provides access to the full \`HttpResponse\`, allowing access to response headers.
-To access only the response body, use \`${this.methodName}()\` instead.${this.descriptionSuffix()}`;
+To access only the response body, use \`${
+      this.methodName
+    }()\` instead.${this.descriptionSuffix()}`;
   }
 
   private bodyMethodDescription() {
     return `${this.descriptionPrefix()}This method provides access to only to the response body.
-To access the full response (for headers, for example), \`${this.responseMethodName}()\` instead.${this.descriptionSuffix()}`;
+To access the full response (for headers, for example), \`${
+      this.responseMethodName
+    }()\` instead.${this.descriptionSuffix()}`;
   }
 
   private descriptionPrefix() {
@@ -84,10 +105,12 @@ To access the full response (for headers, for example), \`${this.responseMethodN
   }
 
   private descriptionSuffix() {
-    const sends = this.requestBody ? 'sends `' + this.requestBody.mediaType + '` and ' : '';
+    const sends = this.requestBody
+      ? 'sends `' + this.requestBody.mediaType + '` and '
+      : '';
     const handles = this.requestBody
       ? `handles request body of type \`${this.requestBody.mediaType}\``
-      : 'doesn\'t expect any request body';
+      : "doesn't expect any request body";
     return `\n\nThis method ${sends}${handles}.`;
   }
 }

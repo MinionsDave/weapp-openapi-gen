@@ -9,7 +9,12 @@ export class EnumValue {
   name: string;
   value: string;
 
-  constructor(public type: string, name: string | undefined, _value: any, public options: Options) {
+  constructor(
+    public type: string,
+    name: string | undefined,
+    _value: any,
+    public options: Options,
+  ) {
     const value = String(_value);
     this.name = name || enumName(value, options);
     if (this.name === '') {

@@ -1,66 +1,46 @@
 {
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rulesDirectory": [],
   "rules": {
-    "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
-    "indent": [
-      true,
-      "spaces"
-    ],
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-whitespace"
-    ],
-    "eofline": true,
-    "forin": true,
-    "no-shadowed-variable": true,
-    "no-string-throw": true,
-    "no-var-keyword": true,
-    "quotemark": [
-      true,
-      "single"
-    ],
-    "semicolon": [
-      true,
-      "always"
-    ],
-    "triple-equals": [
-      true,
-      "allow-null-check",
-      "allow-undefined-check"
-    ],
-    "whitespace": [
-      true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-module",
-      "check-separator",
-      "check-type"
-    ],
-    "typedef-whitespace": [
+    "array-type": false,
+    "arrow-return-shorthand": true,
+    "curly": true,
+    "deprecation": true,
+    "prefer-const": true,
+    "max-classes-per-file": false,
+    "max-line-length": [false, 140],
+    "member-ordering": [
       true,
       {
-        "call-signature": "nospace",
-        "index-signature": "nospace",
-        "parameter": "nospace",
-        "property-declaration": "nospace",
-        "variable-declaration": "nospace"
-      },
-      {
-        "call-signature": "onespace",
-        "index-signature": "onespace",
-        "parameter": "onespace",
-        "property-declaration": "onespace",
-        "variable-declaration": "onespace"
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
-    "no-internal-module": true,
-    "no-trailing-whitespace": true,
-    "prefer-const": true,
-    "jsdoc-format": true
+    "no-console": false,
+    "no-empty": false,
+    "no-inferrable-types": [true, "ignore-params"],
+    "no-non-null-assertion": false,
+    "no-switch-case-fall-through": true,
+    "no-var-requires": false,
+    "variable-name": {
+      "options": ["ban-keywords", "allow-pascal-case"]
+    },
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "case-insensitive",
+        "named-imports-order": "case-insensitive"
+      }
+    ],
+    "triple-equals": [true, "allow-null-check"],
+    "unified-signatures": false,
+    "use-isnan": true,
+    "prefer-for-of": false,
+    "no-duplicate-imports": true,
+    "ban-types": false
   }
 }

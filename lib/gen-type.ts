@@ -7,7 +7,6 @@ import { Options } from './options';
  * Base definitions of a generated type
  */
 export abstract class GenType {
-
   /** Name of the generated type / class */
   typeName: string;
 
@@ -33,8 +32,8 @@ export abstract class GenType {
     public name: string,
     typeNameTransform: (typeName: string, options: Options) => string,
     /** Generation options */
-    public options: Options) {
-
+    public options: Options,
+  ) {
     this.typeName = typeNameTransform(name, options);
     this.namespace = namespace(name);
     this.fileName = fileName(this.typeName);
@@ -60,7 +59,11 @@ export abstract class GenType {
     this.additionalDependencies = [...this._additionalDependencies];
   }
 
-  protected collectImports(schema: SchemaObject | ReferenceObject | undefined, additional = false, processOneOf = false): void {
+  protected collectImports(
+    schema: SchemaObject | ReferenceObject | undefined,
+    additional = false,
+    processOneOf = false,
+  ): void {
     if (!schema) {
       return;
     } else if (schema.$ref) {

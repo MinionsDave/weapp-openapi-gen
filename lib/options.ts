@@ -75,7 +75,7 @@ export interface Options {
    *
    * Defaults to 'pascal'.
    */
-  enumStyle?: "alias" | "upper" | "pascal";
+  enumStyle?: 'alias' | 'upper' | 'pascal';
 
   /** Custom templates directory. Any `.handlebars` files here will be used instead of the corresponding default. */
   templates?: string;
@@ -88,7 +88,7 @@ export interface Options {
 
   customizedResponseType?: {
     [key: string]: {
-      toUse: "arraybuffer" | "blob" | "json" | "document";
+      toUse: 'arraybuffer' | 'blob' | 'json' | 'document';
     };
   };
 }

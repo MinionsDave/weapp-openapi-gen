@@ -1,7 +1,13 @@
-import { SchemaObject, OpenAPIObject } from 'openapi3-ts';
+import { OpenAPIObject, SchemaObject } from 'openapi3-ts';
 import { EnumValue } from './enum-value';
 import { GenType } from './gen-type';
-import { qualifiedName, simpleName, tsComments, tsType, unqualifiedName } from './gen-utils';
+import {
+  qualifiedName,
+  simpleName,
+  tsComments,
+  tsType,
+  unqualifiedName,
+} from './gen-utils';
 import { Options } from './options';
 import { Property } from './property';
 
@@ -9,7 +15,6 @@ import { Property } from './property';
  * Context to generate a model
  */
 export class Model extends GenType {
-
   // General type
   isSimple: boolean;
   isEnum: boolean;
@@ -28,7 +33,12 @@ export class Model extends GenType {
   properties: Property[];
   additionalPropertiesType: string;
 
-  constructor(public openApi: OpenAPIObject, name: string, public schema: SchemaObject, options: Options) {
+  constructor(
+    public openApi: OpenAPIObject,
+    name: string,
+    public schema: SchemaObject,
+    options: Options,
+  ) {
     super(name, unqualifiedName, options);
 
     const description = schema.description || '';
@@ -37,8 +47,12 @@ export class Model extends GenType {
     const type = schema.type || 'any';
 
     // When enumStyle is 'alias' it is handled as a simple type.
-    if (options.enumStyle !== 'alias' && (schema.enum || []).length > 0 && ['string', 'number', 'integer'].includes(type)) {
-      const names = schema['x-enumNames'] as string[] || [];
+    if (
+      options.enumStyle !== 'alias' &&
+      (schema.enum || []).length > 0 &&
+      ['string', 'number', 'integer'].includes(type)
+    ) {
+      const names = (schema['x-enumNames'] as string[]) || [];
       const values = schema.enum || [];
       this.enumValues = [];
       for (let i = 0; i < values.length; i++) {
@@ -47,7 +61,10 @@ export class Model extends GenType {
       }
     }
 
-    this.isObject = type === 'object' || !!schema.properties || (schema.allOf || []).length > 0;
+    this.isObject =
+      type === 'object' ||
+      !!schema.properties ||
+      (schema.allOf || []).length > 0;
     this.isEnum = (this.enumValues || []).length > 0;
     this.isSimple = !this.isObject && !this.isEnum;
 
@@ -59,7 +76,9 @@ export class Model extends GenType {
       this.hasSuperClasses = this.superClasses.length > 0;
       const sortedNames = [...propertiesByName.keys()];
       sortedNames.sort();
-      this.properties = sortedNames.map(propName => propertiesByName.get(propName) as Property);
+      this.properties = sortedNames.map(
+        propName => propertiesByName.get(propName) as Property,
+      );
     } else {
       // Simple / array / enum / union
       this.simpleType = tsType(schema, options, openApi);
@@ -85,7 +104,10 @@ export class Model extends GenType {
     return this.name === name;
   }
 
-  private collectObject(schema: SchemaObject, propertiesByName: Map<string, Property>) {
+  private collectObject(
+    schema: SchemaObject,
+    propertiesByName: Map<string, Property>,
+  ) {
     const allOf = schema.allOf || [];
     if (allOf.length > 0) {
       for (const part of allOf) {
@@ -116,7 +138,14 @@ export class Model extends GenType {
         }
       };
       for (const propName of propNames) {
-        const prop = new Property(this, propName, properties[propName], required.includes(propName), this.options, this.openApi);
+        const prop = new Property(
+          this,
+          propName,
+          properties[propName],
+          required.includes(propName),
+          this.options,
+          this.openApi,
+        );
         propertiesByName.set(propName, prop);
         appendType(prop.type);
         if (!prop.required) {
@@ -126,7 +155,11 @@ export class Model extends GenType {
       if (schema.additionalProperties === true) {
         this.additionalPropertiesType = 'any';
       } else if (schema.additionalProperties) {
-        const propType = tsType(schema.additionalProperties, this.options, this.openApi);
+        const propType = tsType(
+          schema.additionalProperties,
+          this.options,
+          this.openApi,
+        );
         appendType(propType);
         this.additionalPropertiesType = [...propTypes].sort().join(' | ');
       }

@@ -1,4 +1,4 @@
-import { unqualifiedName, qualifiedName, modelFile } from './gen-utils';
+import { modelFile, qualifiedName, unqualifiedName } from './gen-utils';
 import { Options } from './options';
 
 export class Import {
@@ -22,8 +22,7 @@ export class Import {
 export class Imports {
   private _imports = new Map<string, Import>();
 
-  constructor(private options: Options) {
-  }
+  constructor(private options: Options) {}
 
   /**
    * Adds an import

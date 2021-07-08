@@ -9,6 +9,6 @@ export class Response {
     public statusCode: string,
     public description: string,
     public content: Content[],
-    public options: Options) {
-  }
+    public options: Options,
+  ) {}
 }
