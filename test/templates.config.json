@@ -1,10 +1,8 @@
 {
-  "$schema": "../ng-openapi-gen-schema.json",
+  "$schema": "../weapp-openapi-gen-schema.json",
   "input": "test/templates.json",
   "output": "out/templates",
   "defaultTag": "noTag",
   "templates": "test/templates",
-  "excludeParameters": [
-    "X-Exclude"
-  ]
+  "excludeParameters": ["X-Exclude"]
 }

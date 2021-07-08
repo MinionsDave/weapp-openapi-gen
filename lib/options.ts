@@ -1,7 +1,5 @@
-
 /** Options used by ng-openapi-gen */
 export interface Options {
-
   /** The input file or URL to the OpenAPI 3 specification, JSON or YAML, local file or URL */
   input: string;
 
@@ -59,6 +57,9 @@ export interface Options {
   /** Name for the request builder class to generate. Defaults to 'RequestBuilder'. */
   requestBuilder?: string;
 
+  /** Name for the http client class to generate. Defaults to 'HttpClient'. */
+  httpClient?: string;
+
   /** Name for the response class to generate. Defaults to 'StrictHttpResponse'. */
   response?: string;
 
@@ -74,7 +75,7 @@ export interface Options {
    *
    * Defaults to 'pascal'.
    */
-  enumStyle?: 'alias' | 'upper' | 'pascal';
+  enumStyle?: "alias" | "upper" | "pascal";
 
   /** Custom templates directory. Any `.handlebars` files here will be used instead of the corresponding default. */
   templates?: string;
@@ -87,7 +88,7 @@ export interface Options {
 
   customizedResponseType?: {
     [key: string]: {
-      toUse: 'arraybuffer' | 'blob' | 'json' | 'document'
-    }
+      toUse: "arraybuffer" | "blob" | "json" | "document";
+    };
   };
 }

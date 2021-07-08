@@ -1,0 +1,69 @@
+{{! WARNING! If any changes are performed in this template MUST be mirrored in `test/mock/request-builder.ts` }}
+/* tslint:disable */
+/* eslint-disable */
+import { StrictHttpResponse } from './strict-http-response';
+
+export class HttpClient {
+  private requestInterceptors: RequestInterceptor[] = [];
+  private responseInterceptors: ResponseInterceptor[] = [];
+  private onFail?: (err: wx.GeneralCallbackResult, options: RequestOptions, res: Function, rej: Function) => void;
+
+  request<T>(options: RequestOptions): Promise<StrictHttpResponse<T>> {
+    for (const interceptor of this.requestInterceptors) {
+      options = interceptor(options);
+    }
+    if (options.query) {
+      const qs = Object.entries(options.query).map(([k, v]) => `${k}=${v}`).join('&');
+      options.url = `${options.url}?${qs}`;
+    }
+    if (options.path) {
+      const qs = Object.entries(options.path).map(([k, v]) => {
+        options.url = options.url.replace(`{${k}}`, v);
+      });
+    }
+
+    return new Promise((res, rej) => {
+      wx.request({
+        ...options,
+        success: resp => {
+          for (const interceptor of this.responseInterceptors) {
+            resp = interceptor(resp, options);
+          }
+          res(resp as StrictHttpResponse<T>);
+        },
+        fail: err => {
+          if (this.onFail) {
+            this.onFail(err, options, res, rej);
+          } else {
+            rej(err);
+          }
+        },
+      })
+    })
+  }
+
+  addRequestInterceptor(interceptor: RequestInterceptor) {
+    this.requestInterceptors.push(interceptor);
+  }
+
+  addResponseInterceptor(interceptor: ResponseInterceptor) {
+    this.responseInterceptors.push(interceptor);
+  }
+
+  setOnFail(fn: HttpClient['onFail']) {
+    this.onFail = fn;
+  }
+}
+
+export type RequestOptions  = Omit<wx.RequestOption, 'complete' | 'fail' | 'success'> & {
+  /** query string */
+  query?: object;
+  /** path params */
+  path?: object;
+};
+
+export type RequestInterceptor = (options: RequestOptions) => RequestOptions;
+
+export type ResponseInterceptor = (resp: wx.RequestSuccessCallbackResult, options?: RequestOptions) => wx.RequestSuccessCallbackResult;
+
+export const httpClient = new HttpClient();

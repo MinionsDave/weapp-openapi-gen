@@ -1,22 +1,26 @@
-{{{responseMethodTsComments}}}{{responseMethodName}}({{>operationParameters}}): Observable<{{@root.responseClass}}<{{{resultType}}}>> {
+{{{responseMethodTsComments}}}{{responseMethodName}}({{>operationParameters}}): Promise<{{@root.responseClass}}<{{{resultType}}}>> {
 
-    const rb = new {{@root.requestBuilderClass}}(this.rootUrl, {{@root.typeName}}.{{operation.pathVar}}, '{{operation.method}}');
-    if (params) {
-{{#operation.parameters}}
-      rb.{{in}}('{{{name}}}', params{{{varAccess}}}, {{{parameterOptions}}});
-{{/operation.parameters}}
+    const options: RequestOptions = {
+      url: {{@root.typeName}}.{{operation.pathVar}},
+      method: '{{operation.method}}',
 {{#requestBody}}
-      rb.body(params.body, '{{{mediaType}}}');
+      data: params.body,
 {{/requestBody}}
+{{#if operation.hasQueryParameters}}
+      query: {
+{{#operation.queryParameters}}
+        {{{name}}}: params{{{varAccess}}},
+{{/operation.queryParameters}}
+      }
+{{/if }}
+{{#if operation.hasPathParameters}}
+      path: {
+{{#operation.pathParameters}}
+        {{{name}}}: params{{{varAccess}}},
+{{/operation.pathParameters}}
+      }
+{{/if }}
     }
 
-    return this.http.request(rb.build({
-      responseType: '{{responseType}}',
-      accept: '{{accept}}'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        {{> handleResponse}}
-      })
-    );
+    return httpClient.request(options);
   }

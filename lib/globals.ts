@@ -1,11 +1,10 @@
-import { fileName } from './gen-utils';
-import { Options } from './options';
+import { fileName } from "./gen-utils";
+import { Options } from "./options";
 
 /**
  * Stores the global variables used on generation
  */
 export class Globals {
-
   configurationClass: string;
   configurationFile: string;
   configurationParams: string;
@@ -13,6 +12,8 @@ export class Globals {
   baseServiceFile: string;
   requestBuilderClass: string;
   requestBuilderFile: string;
+  httpClientClass: string;
+  httpClientFile: string;
   responseClass: string;
   responseFile: string;
   moduleClass?: string;
@@ -22,26 +23,39 @@ export class Globals {
   rootUrl?: string;
 
   constructor(options: Options) {
-    this.configurationClass = options.configuration || 'ApiConfiguration';
+    this.configurationClass = options.configuration || "ApiConfiguration";
     this.configurationFile = fileName(this.configurationClass);
     this.configurationParams = `${this.configurationClass}Params`;
-    this.baseServiceClass = options.baseService || 'BaseService';
+    this.baseServiceClass = options.baseService || "BaseService";
     this.baseServiceFile = fileName(this.baseServiceClass);
-    this.requestBuilderClass = options.requestBuilder || 'RequestBuilder';
+    this.requestBuilderClass = options.requestBuilder || "RequestBuilder";
     this.requestBuilderFile = fileName(this.requestBuilderClass);
-    this.responseClass = options.response || 'StrictHttpResponse';
+    this.httpClientClass = options.httpClient || "HttpClient";
+    this.httpClientFile = fileName(this.httpClientClass);
+    this.responseClass = options.response || "StrictHttpResponse";
     this.responseFile = fileName(this.responseClass);
-    if (options.module !== false && options.module !== '') {
-      this.moduleClass = options.module === true || options.module == undefined ? 'ApiModule' : options.module;
+    if (options.module !== false && options.module !== "") {
+      this.moduleClass =
+        options.module === true || options.module == undefined
+          ? "ApiModule"
+          : options.module;
       // Angular's best practices demands xxx.module.ts, not xxx-module.ts
-      this.moduleFile = fileName(this.moduleClass as string).replace(/\-module$/, '.module');
+      this.moduleFile = fileName(this.moduleClass as string).replace(
+        /\-module$/,
+        ".module"
+      );
     }
-    if (options.serviceIndex !== false && options.serviceIndex !== '') {
-      this.serviceIndexFile = options.serviceIndex === true || options.serviceIndex == undefined ? 'services' : options.serviceIndex;
+    if (options.serviceIndex !== false && options.serviceIndex !== "") {
+      this.serviceIndexFile =
+        options.serviceIndex === true || options.serviceIndex == undefined
+          ? "services"
+          : options.serviceIndex;
     }
-    if (options.modelIndex !== false && options.modelIndex !== '') {
-      this.modelIndexFile = options.modelIndex === true || options.modelIndex == undefined ? 'models' : options.modelIndex;
+    if (options.modelIndex !== false && options.modelIndex !== "") {
+      this.modelIndexFile =
+        options.modelIndex === true || options.modelIndex == undefined
+          ? "models"
+          : options.modelIndex;
     }
   }
-
 }

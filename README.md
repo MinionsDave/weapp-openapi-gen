@@ -66,7 +66,7 @@ This will expect the file `my-api.yaml` to be in the current directory, and will
 If the file `ng-openapi-gen.json` exists in the current directory, it will be read. Alternatively, you can run `ng-openapi-gen --config my-config.json` (could also be `-c`) to specify a different configuration file, or even specify the input / output as `ng-openapi-gen -i input.yaml` or `ng-openapi-gen -i input.yaml -o /tmp/generation`.
 The only required configuration property is `input`, which specified the `OpenAPI` specification file. The default `output` is `src/app/api`.
 
-For a list with all possible configuration options, see the [JSON schema file](https://raw.githubusercontent.com/cyclosproject/ng-openapi-gen/master/ng-openapi-gen-schema.json).
+For a list with all possible configuration options, see the [JSON schema file](https://raw.githubusercontent.com/cyclosproject/ng-openapi-gen/master/weapp-openapi-gen-schema.json).
 You can also run `ng-openapi-gen --help` to see all available options.
 Each option in the JSON schema can be passed in as a CLI argument, both in camel case, like `--includeTags tag1,tag2,tag3`, or in kebab case, like `--exclude-tags tag1,tag2,tag3`.
 
@@ -74,7 +74,7 @@ Here is an example of a configuration file:
 
 ```json
 {
-  "$schema": "node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "$schema": "node_modules/ng-openapi-gen/weapp-openapi-gen-schema.json",
   "input": "my-file.json",
   "output": "out/person-place",
   "ignoreUnusedModels": false
@@ -273,7 +273,7 @@ paths:
         - Users
       operationId: listUsers
       x-operation-name: list
-      # ... 
+      # ...
   /places:
     get:
       tags:

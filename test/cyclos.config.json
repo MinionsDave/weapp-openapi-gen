@@ -1,5 +1,5 @@
 {
-  "$schema": "../ng-openapi-gen-schema.json",
+  "$schema": "../weapp-openapi-gen-schema.json",
   "input": "cyclos.json",
   "output": "out/cyclos",
   "includeTags": [
