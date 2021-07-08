@@ -13,3 +13,5 @@ import { {{responseClass}} } from '../{{responseFile}}';
 {{#variants}}{{>operationResponse}}{{>operationBody}}{{/variants}}
 {{/operations}}
 }
+
+export const {{instanceName}} = new {{typeName}}();

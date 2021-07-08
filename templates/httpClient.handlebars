@@ -17,7 +17,7 @@ export class HttpClient {
       options.url = `${options.url}?${qs}`;
     }
     if (options.path) {
-      const qs = Object.entries(options.path).map(([k, v]) => {
+      Object.entries(options.path).map(([k, v]) => {
         options.url = options.url.replace(`{${k}}`, v);
       });
     }

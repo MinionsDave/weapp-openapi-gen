@@ -10,6 +10,9 @@ export abstract class GenType {
   /** Name of the generated type / class */
   typeName: string;
 
+  /** Name of the instance / class */
+  instanceName: string;
+
   /** Namespace, separated by '/' */
   namespace?: string;
 
@@ -35,6 +38,8 @@ export abstract class GenType {
     public options: Options,
   ) {
     this.typeName = typeNameTransform(name, options);
+    this.instanceName =
+      this.typeName.slice(0, 1).toLowerCase() + this.typeName.slice(1);
     this.namespace = namespace(name);
     this.fileName = fileName(this.typeName);
     this.qualifiedName = this.typeName;
