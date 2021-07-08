@@ -94,37 +94,10 @@
       "type": "string",
       "default": ""
     },
-    "configuration": {
-      "description": "Name for the configuration class to generate. Defaults to 'ApiConfiguration'.",
-      "type": "string",
-      "default": "ApiConfiguration"
-    },
-    "baseService": {
-      "description": "Name for the base service class to generate. Defaults to 'BaseService'.",
-      "type": "string",
-      "default": "BaseService"
-    },
-    "requestBuilder": {
-      "description": "Name for the request builder class to generate. Defaults to 'RequestBuilder'.",
-      "type": "string",
-      "default": "RequestBuilder"
-    },
     "response": {
       "description": "Name for the response class to generate. Defaults to 'StrictHttpResponse'.",
       "type": "string",
       "default": "StrictHttpResponse"
-    },
-    "module": {
-      "description": "Class name of the module that provides all services. Set to false to skip. Defaults to `ApiModule`.",
-      "default": "ApiModule",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "boolean"
-        }
-      ]
     },
     "enumStyle": {
       "description": "Determines how root enums will be generated. Possible values are:\n\n- `alias`: just generate a type alias with the possible values;\n- `upper` for an enum with UPPER_CASE names, and;\n- `pascal` for enum PascalCase names. Defaults to 'pascal'.",
