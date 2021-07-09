@@ -38,6 +38,7 @@ export class NgOpenApiGen {
   models = new Map<string, Model>();
   services = new Map<string, Service>();
   operations = new Map<string, Operation>();
+  weappNamespace: string;
   outDir: string;
   tempDir: string;
 
@@ -47,6 +48,7 @@ export class NgOpenApiGen {
     if (this.outDir.endsWith('/') || this.outDir.endsWith('\\')) {
       this.outDir = this.outDir.substr(0, this.outDir.length - 1);
     }
+    this.weappNamespace = this.options.weappNamespace || 'WechatMiniprogram';
     this.tempDir = this.outDir + '$';
 
     this.initHandlebars();
@@ -88,8 +90,18 @@ export class NgOpenApiGen {
       };
 
       // Generate the general files
-      this.write('response', general, this.globals.responseFile);
-      this.write('httpClient', general, this.globals.httpClientFile);
+      this.write(
+        'response',
+        { weappNamespace: this.weappNamespace },
+        this.globals.responseFile,
+      );
+      this.write(
+        'httpClient',
+        {
+          weappNamespace: this.weappNamespace,
+        },
+        this.globals.httpClientFile,
+      );
 
       const modelImports =
         this.globals.modelIndexFile || this.options.indexFile

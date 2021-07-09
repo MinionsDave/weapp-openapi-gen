@@ -17,6 +17,11 @@
       "type": "string",
       "default": "src/app/api"
     },
+    "weappNamespace": {
+      "description": "Weapp namespace(WechatMiniprogram/wx)",
+      "type": "string",
+      "default": "WechatMiniprogram"
+    },
     "fetchTimeout": {
       "description": "Indicates the timeout when fetching the input URL, in milliseconds. Defaults to 20 seconds (20000).",
       "type": "number",

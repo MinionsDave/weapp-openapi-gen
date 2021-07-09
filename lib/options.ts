@@ -6,6 +6,9 @@ export interface Options {
   /** Where generated files will be written to. Defaults to 'src/app/api'. */
   output?: string;
 
+  // Weapp namespace(WechatMiniprogram/wx)
+  weappNamespace?: string;
+
   /** Tag name assumed for operations without tags. Defaults to the value of 'prefix', which defaults to 'Api'. */
   defaultTag?: string;
 
@@ -45,26 +48,11 @@ export interface Options {
   /** Suffix for generated model classes. Defaults to empty. */
   modelSuffix?: string;
 
-  /** Whether to generate the module which provides all services */
-  apiModule?: boolean;
-
-  /** Name for the configuration class to generate. Defaults to 'ApiConfiguration'. */
-  configuration?: string;
-
-  /** Name for the base service class to generate. Defaults to 'BaseService'. */
-  baseService?: string;
-
-  /** Name for the request builder class to generate. Defaults to 'RequestBuilder'. */
-  requestBuilder?: string;
-
   /** Name for the http client class to generate. Defaults to 'HttpClient'. */
   httpClient?: string;
 
   /** Name for the response class to generate. Defaults to 'StrictHttpResponse'. */
   response?: string;
-
-  /** Class name of the module that provides all services. Set to false to skip. Defaults to `ApiModule`. */
-  module?: string | boolean;
 
   /**
    * Determines how root enums will be generated. Possible values are:

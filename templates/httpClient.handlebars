@@ -6,19 +6,19 @@ import { StrictHttpResponse } from './strict-http-response';
 export class HttpClient {
   private requestInterceptors: RequestInterceptor[] = [];
   private responseInterceptors: ResponseInterceptor[] = [];
-  private onFail?: (err: wx.GeneralCallbackResult, options: RequestOptions, res: Function, rej: Function) => void;
+  private onFail?: (err: {{weappNamespace}}.GeneralCallbackResult, options: RequestOptions, res: Function, rej: Function) => void;
 
   request<T>(options: RequestOptions): Promise<StrictHttpResponse<T>> {
     for (const interceptor of this.requestInterceptors) {
       options = interceptor(options);
     }
     if (options.query) {
-      const qs = Object.entries(options.query).map(([k, v]) => `${k}=${v}`).join('&');
+      const qs = Object.keys(options.query).map(k => `${k}=${options.query![k]}`).join('&');
       options.url = `${options.url}?${qs}`;
     }
     if (options.path) {
-      Object.entries(options.path).map(([k, v]) => {
-        options.url = options.url.replace(`{${k}}`, v);
+      Object.keys(options.path).map(k => {
+        options.url = options.url.replace(`{${k}}`, options.path![k] + '');
       });
     }
 
@@ -55,15 +55,15 @@ export class HttpClient {
   }
 }
 
-export type RequestOptions  = Omit<wx.RequestOption, 'complete' | 'fail' | 'success'> & {
+export type RequestOptions  = Omit<{{weappNamespace}}.RequestOption, 'complete' | 'fail' | 'success'> & {
   /** query string */
-  query?: object;
+  query?: Record<string, any>;
   /** path params */
-  path?: object;
+  path?: Record<string, any>;
 };
 
 export type RequestInterceptor = (options: RequestOptions) => RequestOptions;
 
-export type ResponseInterceptor = (resp: wx.RequestSuccessCallbackResult, options?: RequestOptions) => wx.RequestSuccessCallbackResult;
+export type ResponseInterceptor = (resp: {{weappNamespace}}.RequestSuccessCallbackResult, options?: RequestOptions) => {{weappNamespace}}.RequestSuccessCallbackResult;
 
 export const httpClient = new HttpClient();

@@ -3,6 +3,6 @@
 /**
  * Constrains the http response to not have the body defined as `T | null`, but `T` only.
  */
-export type {{ responseClass }}<T> = wx.RequestSuccessCallbackResult & {
+export type {{ responseClass }}<T> = {{weappNamespace}}.RequestSuccessCallbackResult & {
   data: T
 }

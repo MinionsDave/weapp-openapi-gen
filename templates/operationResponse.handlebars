@@ -3,18 +3,21 @@
     const options: RequestOptions = {
       url: {{@root.typeName}}.{{operation.pathVar}},
       method: '{{operation.method}}',
+    }
+
+    if (params) {
 {{#requestBody}}
-      data: params.body,
+      options.data = params.body;
 {{/requestBody}}
 {{#if operation.hasQueryParameters}}
-      query: {
+      options.query = {
 {{#operation.queryParameters}}
         {{{name}}}: params{{{varAccess}}},
 {{/operation.queryParameters}}
       }
 {{/if }}
 {{#if operation.hasPathParameters}}
-      path: {
+      options.path = {
 {{#operation.pathParameters}}
         {{{name}}}: params{{{varAccess}}},
 {{/operation.pathParameters}}
