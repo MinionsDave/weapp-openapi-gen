@@ -74,7 +74,7 @@ httpClient.addRequestInterceptor(options => {
 });
 ```
 
-2. `addRequestInterceptor(interceptor: RequestInterceptor)`:
+2. `addResponseInterceptor(interceptor: ResponseInterceptor)`:
 响应拦截器，可对请求结果进行统一的处理。
 
 ```typescript
