@@ -10,12 +10,15 @@ import { Options } from './options';
 export class Service extends GenType {
   tag: TagObject;
 
-  constructor(
-    tag: TagObject,
-    public operations: Operation[],
-    options: Options,
-  ) {
+  operations: Operation[];
+
+  constructor(tag: TagObject, operations: Operation[], options: Options) {
     super(tag.name, serviceClass, options);
+
+    // weapp not support patch
+    this.operations = operations.filter(
+      o => o.method.toLowerCase() !== 'patch',
+    );
 
     // Angular standards demand that services have a period separating them
     if (this.fileName.endsWith('-service')) {
