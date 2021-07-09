@@ -4,5 +4,5 @@ export { {{responseClass}} } from './{{{responseFile}}}';
 {{#modelImports}}export { {{{typeName}}}{{#useAlias}} as {{{qualifiedName}}}{{/useAlias}} } from '{{{file}}}';
 {{/modelImports}}
 
-{{#services}}export { {{typeName}} } from './services/{{{fileName}}}';
+{{#services}}export { {{typeName}}, {{instanceName}} } from './services/{{{fileName}}}';
 {{/services}}
