@@ -57,7 +57,7 @@
     },
     "modelIndex": {
       "description": "Typescript file, without '.ts' extension that exports all models. Set to false to skip. Defaults to `models`.",
-      "default": "models",
+      "default": "false",
       "anyOf": [
         {
           "type": "string"
@@ -69,7 +69,7 @@
     },
     "serviceIndex": {
       "description": "Typescript file, without '.ts' extension that exports all services. Set to false to skip. Defaults to `services`.",
-      "default": "services",
+      "default": "false",
       "anyOf": [
         {
           "type": "string"
@@ -122,7 +122,7 @@
     },
     "indexFile": {
       "description": "When set to true, a index.ts file will be generated that exports all generated files.",
-      "default": false,
+      "default": true,
       "type": "boolean"
     },
     "skipJsonSuffix": {

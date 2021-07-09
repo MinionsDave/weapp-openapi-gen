@@ -104,7 +104,7 @@ export class NgOpenApiGen {
       );
 
       const modelImports =
-        this.globals.modelIndexFile || this.options.indexFile
+        this.globals.modelIndexFile || this.options.indexFile !== false
           ? models.map(m => new Import(m.name, './models', m.options))
           : null;
       if (this.globals.modelIndexFile) {
@@ -117,7 +117,7 @@ export class NgOpenApiGen {
       if (this.globals.serviceIndexFile) {
         this.write('serviceIndex', general, this.globals.serviceIndexFile);
       }
-      if (this.options.indexFile) {
+      if (this.options.indexFile !== false) {
         this.write('index', { ...general, modelImports }, 'index');
       }
 
