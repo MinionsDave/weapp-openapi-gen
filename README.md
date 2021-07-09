@@ -22,7 +22,7 @@ weapp-openapi-gen --input https://petstore3.swagger.io/api/v3/openapi.json --out
 
 生成
 
-```
+```shell
 ├── http-client.ts
 ├── index.ts
 ├── models
@@ -59,7 +59,8 @@ weapp-openapi-gen --input https://petstore3.swagger.io/api/v3/openapi.json --out
 
 ## HttpClient api
 
-1. `addRequestInterceptor(interceptor: RequestInterceptor)`:
+### `addRequestInterceptor(interceptor: RequestInterceptor)`
+
 请求拦截器，可在请求发送前对请求参数进行统一的处理，例如添加域名和请求头。
 
 ```typescript
@@ -74,7 +75,8 @@ httpClient.addRequestInterceptor(options => {
 });
 ```
 
-2. `addResponseInterceptor(interceptor: ResponseInterceptor)`:
+### `addResponseInterceptor(interceptor: ResponseInterceptor)`
+
 响应拦截器，可对请求结果进行统一的处理。
 
 ```typescript
