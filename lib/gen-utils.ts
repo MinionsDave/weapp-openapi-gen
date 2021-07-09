@@ -296,7 +296,8 @@ export function tsType(
 
   // A Blob
   if (type === 'string' && schema.format === 'binary') {
-    return 'Blob';
+    return 'any';
+    // return 'Blob'; // weapp does not support Blob
   }
 
   // A simple type
