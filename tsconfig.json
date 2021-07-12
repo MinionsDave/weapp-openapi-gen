@@ -19,8 +19,7 @@
       ]
     },
     "types": [
-      "node",
-      "jasmine"
+      "node"
     ],
     "lib": [
       "es2017"

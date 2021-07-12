@@ -18,10 +18,9 @@
     "weapp-openapi-gen": "lib/index.js"
   },
   "scripts": {
-    "test": "jasmine-ts --project=tsconfig.json --config=jasmine.json",
     "lint": "tslint \"lib/**/*.ts\" --fix && prettier --write \"lib/**/*.ts\"",
     "compile": "tsc --project tsconfig.json && ncp \"LICENSE\" dist && ncp \"README.md\" \"dist/README.md\" && ncp \"templates\" \"dist/templates\" && ncp \"node_modules\" \"dist/node_modules\" && rimraf \"dist/test\" && replace-in-file \"\\\"private\\\": true\" \"\\\"private\\\": false\" dist/package.json",
-    "build": "npm run tslint && npm run compile && npm test",
+    "build": "npm run lint && npm run compile",
     "test:watch": "nodemon --watch './**/*' --exec 'npm run test'"
   },
   "dependencies": {
@@ -53,10 +52,6 @@
     "rxjs": ">=6.0.0"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.6.6",
-    "jasmine": "^3.6.4",
-    "jasmine-spec-reporter": "^6.0.0",
-    "jasmine-ts": "^0.3.0",
     "mem": "^8.0.0",
     "ncp": "^2.0.0",
     "nodemon": "^2.0.7",

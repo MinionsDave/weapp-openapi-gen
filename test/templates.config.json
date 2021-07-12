@@ -1,8 +1,0 @@
-{
-  "$schema": "../weapp-openapi-gen-schema.json",
-  "input": "test/templates.json",
-  "output": "out/templates",
-  "defaultTag": "noTag",
-  "templates": "test/templates",
-  "excludeParameters": ["X-Exclude"]
-}

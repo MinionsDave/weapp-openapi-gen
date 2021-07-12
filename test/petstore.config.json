@@ -1,7 +1,0 @@
-{
-  "$schema": "../weapp-openapi-gen-schema.json",
-  "input": "petstore.json",
-  "output": "out/petstore",
-  "modelPrefix": "Petstore",
-  "modelSuffix": "Model"
-}
